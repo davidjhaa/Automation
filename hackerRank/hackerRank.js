@@ -40,4 +40,36 @@ then(function(browser){
 })
 .then(function(){
     console.log("Logged Into Hackerrank Successfully");
+    let algorithmTabWillBeOpenPromise = waitAndClick("div[data-automation='algorithms']");
+    return algorithmTabWillBeOpenPromise;
 })
+.then(function(){
+    console.log("Algorithm Tab Opened");
+})
+.catch(function(err){
+    console.log(err);
+});
+
+
+
+
+
+
+function waitAndClick(selector){
+    let waitClickPromise = new Promise(function(resolve, reject){
+        let contentLoadedromise = cTab.waitForSelector(selector);
+        contentLoadedromise
+        .then(function(){
+            console.log("Selector Node is Found");
+            let clickNodePromise = cTab.click(selector);
+            return clickNodePromise;
+        })
+        .then(function(){
+            resolve();
+        })
+        .catch(function(err){
+            console.log(err);
+        })
+    })
+    return waitClickPromise;
+}
