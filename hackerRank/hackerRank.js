@@ -45,7 +45,26 @@ then(function(browser){
 })
 .then(function(){
     console.log("Algorithm Tab Opened");
+    let allQuestionLoadedPromise = cTab.waitForSelector('a[data-analytics="ChallengeListChallengeName"]');
+    return allQuestionLoadedPromise;
 })
+.then(function(){
+    function getAllQuestionLinks(){
+        let allElemArray = document.querySelectorAll('a[data-analytics="ChallengeListChallengeName"]');
+        let linksArr = [];
+        for(let i = 0; i < allElemArray.length; i++){
+            linksArr.push(allElemArray[i].getAttribute("href"));
+        }
+        return linksArr;
+    }
+    let linksArrPromise = cTab.evaluate(getAllQuestionLinks());
+    return linksArrPromise;
+})
+.then(function(linksArr){
+    console.log("Links Of All QuestionArray Recieved");
+    console.log(linksArr);
+})
+
 .catch(function(err){
     console.log(err);
 });
@@ -60,11 +79,12 @@ function waitAndClick(selector){
         let contentLoadedromise = cTab.waitForSelector(selector);
         contentLoadedromise
         .then(function(){
-            console.log("Selector Node is Found");
+            console.log("Algo Btn is Found");
             let clickNodePromise = cTab.click(selector);
             return clickNodePromise;
         })
         .then(function(){
+            console.log("Algo Btn Clicked");
             resolve();
         })
         .catch(function(err){
