@@ -63,7 +63,7 @@ browserOpenPromise.
     })
     .then(function (linksArr) {
         console.log("Links Of All QuestionArray Recieved");
-        // console.log(linksArr);
+        console.log(linksArr);
         // question is to be solved
         let questionWillBeSolvedPromise = questionSolver(linksArr[0], 0);
         return questionWillBeSolvedPromise;
@@ -102,8 +102,8 @@ function waitAndClick(selector) {
 }
 
 function questionSolver(url, idx) {
-    let questionSolvedPromise = new Promise(function (resolve, reject) {
-        let fullLink = `https://www.hackerrank.com ${url}`;
+    return new Promise(function (resolve, reject) {
+        let fullLink = `https://www.hackerrank.com${url}`;
         let questionOpenedPromise = cTab.goto(fullLink);
         questionOpenedPromise
             .then(function () {
@@ -119,12 +119,12 @@ function questionSolver(url, idx) {
             })
             .then(function () {
                 // type the code in textbox Area
-                let codeTypedPromise = cTab.type(".custominput", answer[idx], { delay: 100 });
+                let codeTypedPromise = cTab.type(".custominput", answer[idx]);
                 return codeTypedPromise;
             })
             .then(function () {
                 // select all the text written in customInput Area
-                let controlKeyPressedPromise = cTab.keyboard.press("Control");
+                let controlKeyPressedPromise = cTab.keyboard.down("Control");
                 return controlKeyPressedPromise;
             })
             .then(function () {
@@ -145,12 +145,15 @@ function questionSolver(url, idx) {
                 return editorSelectedPromise;
             })  //pasting in editor started
             .then(function () {
-                let controlKeyPressedPromise = cTab.keyboard.press("Control");
+                let controlKeyPressedPromise = cTab.keyboard.down("Control");
                 return controlKeyPressedPromise;
             })
             .then(function () {
-                let vKeyPressedPromise = cTab.keyboard.press("v");
-                return vKeyPressedPromise;
+                let aKeyPressedPromise = cTab.keyboard.press("a");
+                return aKeyPressedPromise;
+            })
+            .then(function(){
+                let vKeyPressedPromise = cTab.keyboard.press("V")
             })
             .then(function () {
                 let ctrlKeyReleasedPromise = cTab.keyboard.up("Control");
@@ -167,6 +170,5 @@ function questionSolver(url, idx) {
             .catch(function (err) {
                 reject(err);
             })
-    });
-    return questionSolvedPromise;
+    })
 }
