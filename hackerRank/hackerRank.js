@@ -26,12 +26,12 @@ browserOpenPromise.
     })
     .then(function () {
         console.log("HackerEarth page is opened");
-        let emailTypedPromie = cTab.type("#input-1", email);
+        let emailTypedPromie = cTab.type("#input-1", email, {delay:100});
         return emailTypedPromie;
     })
     .then(function () {
         console.log("email is typed");
-        let passwordTypedPromise = cTab.type("input[type = 'password']", password);
+        let passwordTypedPromise = cTab.type("input[type = 'password']", password, {delay:100});
         return passwordTypedPromise;
     })
     .then(function () {
@@ -66,6 +66,12 @@ browserOpenPromise.
         console.log(linksArr);
         // question is to be solved
         let questionWillBeSolvedPromise = questionSolver(linksArr[0], 0);
+        // for(let i = 1; i < linksArr.length; i++){
+            // questionWillBeSolvedPromise = questionWillBeSolvedPromise.then(function(){
+                // console.log(`question Number${i-1}solved`);
+                // return questionSolver(linksArr[i], i);
+            // })
+        // }
         return questionWillBeSolvedPromise;
     })
     .then(function () {
@@ -119,7 +125,7 @@ function questionSolver(url, idx) {
             })
             .then(function () {
                 // type the code in textbox Area
-                let codeTypedPromise = cTab.type(".custominput", answer[idx]);
+                let codeTypedPromise = cTab.type(".custominput", answer[idx], {delay:100});
                 return codeTypedPromise;
             })
             .then(function () {
@@ -149,11 +155,11 @@ function questionSolver(url, idx) {
                 return controlKeyPressedPromise;
             })
             .then(function () {
-                let aKeyPressedPromise = cTab.keyboard.press("a");
+                let aKeyPressedPromise = cTab.keyboard.press("a",{delay:100});
                 return aKeyPressedPromise;
             })
             .then(function(){
-                let vKeyPressedPromise = cTab.keyboard.press("V")
+                let vKeyPressedPromise = cTab.keyboard.press("v",{delay:100});
             })
             .then(function () {
                 let ctrlKeyReleasedPromise = cTab.keyboard.up("Control");
